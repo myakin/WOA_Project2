@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5577552370947427511}
   - component: {fileID: 5577552370947427510}
   - component: {fileID: 7815066999786445115}
+  - component: {fileID: 2304358402338685313}
   m_Layer: 0
   m_Name: ColumnSprite
   m_TagString: Column
@@ -107,3 +108,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.79508567, y: 8.192}
   m_EdgeRadius: 0
+--- !u!114 &2304358402338685313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5577552370947427496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a120b4a0f840a463b80594749a86f68d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

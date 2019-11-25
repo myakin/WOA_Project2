@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     public static GameController gameController;
 
     public List<GameObject> backgoundsPool = new List<GameObject>();
+    public bool isGamePlaying = true;
 
     private void Awake() {
         if (GameController.gameController == null) {

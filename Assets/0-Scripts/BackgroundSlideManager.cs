@@ -101,27 +101,29 @@ public class BackgroundSlideManager : MonoBehaviour
 
 
     private void Update() {
-        transform.position += Vector3.left * slidingVelocity;
-        //Debug.Log(transform.position.x);
-        if (!isInstantiating) {
-            if (transform.position.x < instantiationPoint) { // instantiation point
-                isInstantiating=true;
-                if (GameController.gameController.CountBackgroundPool()==0) {
-                    slidingBackgroundPrefab = Resources.Load("SligingBackground") as GameObject;
-                    GameObject newBackground = Instantiate (slidingBackgroundPrefab, transform.position + (transform.right*(widthOnPositiveX+widthOnNegativeX)), Quaternion.identity);
-                } else {
-                    slidingBackgroundPrefab = GameController.gameController.GetFromBackroundPool();
-                    slidingBackgroundPrefab.transform.position = transform.position + (transform.right*(widthOnPositiveX+widthOnNegativeX));
-                    slidingBackgroundPrefab.transform.rotation = Quaternion.identity;
-                    slidingBackgroundPrefab.SetActive(true);
+        if (GameController.gameController.isGamePlaying) {
+            transform.position += Vector3.left * slidingVelocity;
+            //Debug.Log(transform.position.x);
+            if (!isInstantiating) {
+                if (transform.position.x < instantiationPoint) { // instantiation point
+                    isInstantiating=true;
+                    if (GameController.gameController.CountBackgroundPool()==0) {
+                        slidingBackgroundPrefab = Resources.Load("SligingBackground") as GameObject;
+                        GameObject newBackground = Instantiate (slidingBackgroundPrefab, transform.position + (transform.right*(widthOnPositiveX+widthOnNegativeX)), Quaternion.identity);
+                    } else {
+                        slidingBackgroundPrefab = GameController.gameController.GetFromBackroundPool();
+                        slidingBackgroundPrefab.transform.position = transform.position + (transform.right*(widthOnPositiveX+widthOnNegativeX));
+                        slidingBackgroundPrefab.transform.rotation = Quaternion.identity;
+                        slidingBackgroundPrefab.SetActive(true);
+                    }
+                    
                 }
-                
             }
-        }
-        if (transform.position.x < destructionPoint) { // destruction point
-            // Destroy(gameObject);
-            gameObject.SetActive(false);
-            GameController.gameController.AddToBackgroundPool(gameObject);
+            if (transform.position.x < destructionPoint) { // destruction point
+                // Destroy(gameObject);
+                gameObject.SetActive(false);
+                GameController.gameController.AddToBackgroundPool(gameObject);
+            }
         }
         
     }
