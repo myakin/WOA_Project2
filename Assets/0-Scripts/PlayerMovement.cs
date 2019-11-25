@@ -23,15 +23,23 @@ public class PlayerMovement : MonoBehaviour
             if (touches.Length>0) {
                 isInputBlocked = true;
                 if (touches.Length==1) {
-                    rb.AddForce(Vector2.up * antiGravityForceMagnitude, ForceMode2D.Impulse);
+                    AddAntiGravityForce();
                 }
                 if (touches.Length==2) {
                     rb.AddForce(Vector2.right * fastFlyForceMagnitude, ForceMode2D.Impulse);
                 }
                 StartCoroutine(RemoveInputBlock());
             }
+
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                AddAntiGravityForce();
+            }
         }
         
+    }
+
+    private void AddAntiGravityForce() {
+        rb.AddForce(Vector2.up * antiGravityForceMagnitude, ForceMode2D.Impulse);
     }
 
     private IEnumerator RemoveInputBlock() {

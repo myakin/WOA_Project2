@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec0f2101465f4313a0605d3a4ffeca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slidingBackgroundPrefab: {fileID: 535169328268666009}
+  columnsParent: {fileID: 2575868652022856650}
+  safeUprightY: {x: -6.5, y: -1.5}
   boundsRefObj: {fileID: 7674446378672324472}
   slidingVelocity: 0.1
 --- !u!1 &2575868651122895606
@@ -188,7 +189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2575868652022856650}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.54, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2575868652650229904}
@@ -475,6 +476,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ColumnSprite
       objectReference: {fileID: 0}
+    - target: {fileID: 5577552370947427496, guid: d6ecfc1c7c903471dbcaa1a14d25536b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5577552370947427511, guid: d6ecfc1c7c903471dbcaa1a14d25536b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -549,6 +555,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ColumnSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577552370947427496, guid: d6ecfc1c7c903471dbcaa1a14d25536b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5577552370947427511, guid: d6ecfc1c7c903471dbcaa1a14d25536b,
         type: 3}
@@ -699,6 +710,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ColumnSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577552370947427496, guid: d6ecfc1c7c903471dbcaa1a14d25536b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5577552370947427511, guid: d6ecfc1c7c903471dbcaa1a14d25536b,
         type: 3}
@@ -924,6 +940,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ColumnSprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577552370947427496, guid: d6ecfc1c7c903471dbcaa1a14d25536b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5577552370947427511, guid: d6ecfc1c7c903471dbcaa1a14d25536b,
         type: 3}
