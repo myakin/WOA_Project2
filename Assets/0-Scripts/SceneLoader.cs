@@ -20,6 +20,7 @@ public class SceneLoader : MonoBehaviour
 
 
     public void LoadSceneByLevelNo(int levelNo) {
+        GameController.gameController.backgoundsPool.Clear();
         SceneManager.LoadScene(levelNo);
         SceneManager.UnloadScene(0);
     }

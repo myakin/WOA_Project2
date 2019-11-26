@@ -21,10 +21,12 @@ public class BackgroundSlideManager : MonoBehaviour
     private List<float> occupiedXs = new List<float>();
     private float checkXDelta=2f;
 
+    
+    // key = objenin ismi, value = objeye ait pool
+    Dictionary <string, List<GameObject>> columnsPool = new Dictionary<string, List<GameObject>>();
 
 
-
-    private void Start() {
+    private void OnEnable() {
         // GetComponent<MeshRenderer>().bounds.max.x objenin pozitif x ekseninde o anki dunya pozisyonunu doduruyor (lokal pozisyonu degil)
         // o anki dunya pozisyonundan o anki cismin pozisyonunun x'ini cikarirsam objenin gercek pozitif x genisligini bulurum
         // aynisi GetComponent<MeshRenderer>().bounds.min.x icin de gecerli
@@ -32,19 +34,33 @@ public class BackgroundSlideManager : MonoBehaviour
         // widthOnNegativeX = Mathf.Abs(Mathf.Abs(boundsRefObj.GetComponent<MeshRenderer>().bounds.min.x) - transform.position.x);
         // Debug.Log(gameObject.name+": widthOnPositiveX="+widthOnPositiveX + " widthOnNegativeX=" + widthOnNegativeX);
 
-
-        // TODO: work on column generation with code below
         nonAbsWidthOnNegativeX = boundsRefObj.GetComponent<MeshRenderer>().bounds.min.x - transform.position.x;
         widthOnNegativeX = Mathf.Abs(Mathf.Abs(boundsRefObj.GetComponent<MeshRenderer>().bounds.min.x) - transform.position.x);
-        Debug.Log(gameObject.name+": widthOnPositiveX="+widthOnPositiveX + " widthOnNegativeX=" + widthOnNegativeX + " nonAbsWidthOnNegativeX="+nonAbsWidthOnNegativeX);
-        
-        
+        //Debug.Log(gameObject.name+": widthOnPositiveX="+widthOnPositiveX + " widthOnNegativeX=" + widthOnNegativeX + " nonAbsWidthOnNegativeX="+nonAbsWidthOnNegativeX);
+
         numberOfUprightColumns=DecideHowManyColumnsWillBeGenerated();
         for (int i=0; i<numberOfUprightColumns; i++) {
-            GameObject newColumnPrefab = Resources.Load(PickAnObjectToGenerate()) as GameObject;
-            GameObject newColumn = Instantiate(newColumnPrefab, columnsParent.transform);
-            // position of newColumn
+            string prefabName = PickAnObjectToGenerate();
 
+            GameObject newColumn = null;
+            // direkt columnsPool[prefabName] diye ulasmaya calismak yerine
+            // soyle bir check yapmak daha guvenli. cunku eger [prefabName] indexi
+            // yoksa hata alirim
+            if (columnsPool.ContainsKey(prefabName) && columnsPool[prefabName].Count>0) {
+                // 1.listeden 0 indexindeki objeyi cekmek istiyorum
+                // 2.listeyi guncellemek istiyorum (0 indexi silmeyi gerektiriyor)
+                // o obje ya sahnededir ya da listededir; hem sahnede hem listede olamaz
+                // yani istedigim obje su: columnsPool[prefabName][0]
+                newColumn = columnsPool[prefabName][0]; // pool'dan cektim, ama henuz pool'umu guncellemedim
+                columnsPool[prefabName].RemoveAt(0);
+
+            } else {
+                GameObject newColumnPrefab = Resources.Load(prefabName) as GameObject;
+                newColumn = Instantiate(newColumnPrefab, columnsParent.transform);
+            }
+
+            
+            // position of newColumn
             float posX = DeterminePosX();
             float posY = DeterminePosY();
             //Debug.Log(posX +" "+ posY);
@@ -54,6 +70,37 @@ public class BackgroundSlideManager : MonoBehaviour
                 0
             );
         }
+    }
+
+    private void OnDisable() {
+        string nameOfThisObj = gameObject.name;
+        // sahnedeye bizim yerlestirdigimiz obje ise isim SlidingBackground olacak
+        // sahneye procedural generation ile yerlestirdigimiz obje ise isim
+        // SlidingBackground(Clone) olacak
+        // bizim her sekilde SlidingBackground stringine ihtiyacimiz var
+        if (nameOfThisObj.Contains("(Clone)")) {
+            nameOfThisObj = nameOfThisObj.Substring(0, nameOfThisObj.Length-7);
+            //nameOfThisObj = nameOfThisObj.Replace("(Clone)","");
+            // Obje(Clone)Kolon
+            // Obje(Clone)Kolon(Clone)
+        }
+
+        //gameObject.SetActive(false);
+        foreach(KeyValuePair<string, List<GameObject>> poolObject in columnsPool) {
+            if (!columnsPool.ContainsKey(nameOfThisObj)) {
+                List<GameObject> poolOfThisNameSpace = new List<GameObject>(); 
+                poolOfThisNameSpace.Add(gameObject);
+                columnsPool.Add(nameOfThisObj, poolOfThisNameSpace);
+            } else {
+                columnsPool[nameOfThisObj].Add(gameObject);
+            }
+        }
+        occupiedXs.Clear();
+    }
+
+
+    private void Start() {
+        
     }
 
 
@@ -78,11 +125,13 @@ public class BackgroundSlideManager : MonoBehaviour
     }
     private float DeterminePosX() {
         float posX = Random.Range(nonAbsWidthOnNegativeX,widthOnPositiveX);
+        //Debug.Log("nonAbsWidthOnNegativeX="+nonAbsWidthOnNegativeX+" widthOnPositiveX="+widthOnPositiveX+" posX="+posX);
         for (int i=0; i<occupiedXs.Count; i++) {
             if (Mathf.Abs(occupiedXs[i] - posX) < checkXDelta) {
                 return DeterminePosX();
             } 
         }
+        occupiedXs.Add(posX);
         return posX;
     }
     private float DeterminePosY() {
@@ -122,6 +171,7 @@ public class BackgroundSlideManager : MonoBehaviour
             if (transform.position.x < destructionPoint) { // destruction point
                 // Destroy(gameObject);
                 gameObject.SetActive(false);
+                isInstantiating=false;
                 GameController.gameController.AddToBackgroundPool(gameObject);
             }
         }
