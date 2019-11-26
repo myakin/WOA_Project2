@@ -550,6 +550,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SligingBackground
       objectReference: {fileID: 0}
+    - target: {fileID: 535169328268666009, guid: 245a7c78545d546559b824a20410c50b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6663849045828766380, guid: 245a7c78545d546559b824a20410c50b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -698,6 +703,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6069387036247989186, guid: 93de1ef59e1744bee97d90aa6a4a7992,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93de1ef59e1744bee97d90aa6a4a7992, type: 3}
